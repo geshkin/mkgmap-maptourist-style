@@ -2,7 +2,7 @@
 
 mkdir -p tmp
 mkgmap_url='http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz'
-splitter_url='http://www.mkgmap.org.uk/splitter/splitter-r200.tar.gz'
+splitter_url='http://www.mkgmap.org.uk/splitter/splitter-r202.tar.gz'
 osmosis_url='http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-latest.tgz'
 mkgmap=`basename $mkgmap_url`
 splitter=`basename $splitter_url`

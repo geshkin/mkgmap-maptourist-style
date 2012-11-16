@@ -43,9 +43,9 @@ convert:
 
 mkgbnd2:
 	mkdir -p boundary
-	${OSMOSIS}  --read-pbf file=${INPUT} outPipe.0=1 \
-	--tee 2 inPipe.0=1 outPipe.0=2 outPipe.1=3 \
-	--buffer inPipe.0=3 outPipe.0=4 \
+	${OSMOSIS} --read-pbf file=${INPUT} outPipe.0=1 \
+	--read-pbf file=${INPUT} outPipe.0=2 \
+	--buffer inPipe.0=1 outPipe.0=4 \
 	--buffer inPipe.0=2 outPipe.0=5 \
 	--tag-filter accept-relations boundary=administrative,postal_code inPipe.0=4 outPipe.0=6 \
 	--used-way inPipe.0=6 outPipe.0=7 \
