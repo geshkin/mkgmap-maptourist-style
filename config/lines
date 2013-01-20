@@ -51,6 +51,10 @@ mkgmap:country=ESP & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='$
 mkgmap:country=SWE & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
 mkgmap:country=SWE & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
 mkgmap:country=CHE & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
+# Russia
+mkgmap:country=RUS & mkgmap:city!=* & (mkgmap:admin_level4='Санкт-Петербург' | mkgmap:admin_level4='Москва') { set mkgmap:city='${mkgmap:admin_level4}' }
+mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
+mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level6=* { set mkgmap:city='${mkgmap:admin_level6}' }
 # mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
  
 # common rules for all the rest of countries
@@ -100,9 +104,15 @@ name=* { name '${name|subst:улица=> ул.
 			|subst:набережная=> наб.
 			}' }
 
+# taxi type is used for river routing
+highway=* {add taxi=no}
+
 # убираем из обработки все планируемые дороги, ж/д, мосты и т.д.
 highway=proposed | railway=proposed | bridge=proposed | proposed=* 
 		{delete highway; delete rail; delete bridge}
+
+# удаляем мост если bridge=no
+bridge=no	{delete highway; delete rail; delete bridge}
 
 # Flag unpaved roads.
 highway=*
@@ -249,7 +259,7 @@ highway=tertiary_link [0x08 road_class=1 road_speed=1 resolution 21]
 highway=minor {add display_name = '${name}'} [0x06 road_class=1 road_speed=3 resolution 19]
 highway=unclassified {add display_name = '${name}'} [0x06 road_class=0 road_speed=3 resolution 19]
 
-highway=pedestrian & area!=yes {add access = no; add foot = yes} [0x0d road_class=0 road_speed=0 resolution 22]
+highway=pedestrian & area!=yes {add access = no; add foot = yes} [0x16 road_class=0 road_speed=0 resolution 22]
 highway=living_street & area!=yes [0x06 road_class=0 road_speed=1 resolution 22]
 highway=residential & area!=yes {add display_name = '${name}'} [0x0d road_class=0 road_speed=2 resolution 22]
 highway=bridleway {add access = no; add bicycle = yes; add foot = yes} [0x16 road_class=0 road_speed=0 resolution 22]
@@ -350,7 +360,7 @@ waterway=canal |
 waterway=river |
 waterway=rapid | waterway=rapids | whitewater=rapid | whitewater=rapids |
 waterway=drain |
-waterway=stream {add access=no} [0x0f road_class=0 road_speed=0 resolution 24]
+waterway=stream {add access=no; add taxi=yes} [0x0f road_class=0 road_speed=0 resolution 24]
 
 # Горнолыжные трассы
 piste:type=downhill & piste:difficulty=novice [0x10105 resolution 22]
