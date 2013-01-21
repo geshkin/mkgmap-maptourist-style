@@ -2,13 +2,13 @@
 
 mkdir -p tmp
 mkgmap_url='http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz'
-splitter_url='http://www.mkgmap.org.uk/splitter/splitter-r202.tar.gz'
+splitter_url='http://www.mkgmap.org.uk/splitter/splitter-r282.tar.gz'
 osmosis_url='http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-latest.tgz'
 mkgmap=`basename $mkgmap_url`
 splitter=`basename $splitter_url`
 osmosis=`basename $osmosis_url`
 
-remote_size=`wget --spider --server-response $mkgmap_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}'`
+remote_size=`wget --spider --server-response $mkgmap_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}' | tail -n 1`
 local_size=`ls -l $mkgmap | awk '{ print $5 }'`
 if [ ${remote_size}x != ${local_size}x ]; then
 	rm -f $mkgmap
@@ -16,7 +16,7 @@ if [ ${remote_size}x != ${local_size}x ]; then
 fi
 tar xfz $mkgmap -C tmp
 
-remote_size=`wget --spider --server-response $osmosis_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}'`
+remote_size=`wget --spider --server-response $osmosis_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}' | tail -n 1`
 local_size=`ls -l $osmosis | awk '{ print $5 }'`
 if [ ${remote_size}x != ${local_size}x ]; then
 	rm -f $osmosis
@@ -24,7 +24,7 @@ if [ ${remote_size}x != ${local_size}x ]; then
 fi
 tar xfz $osmosis -C tmp
 
-remote_size=`wget --spider --server-response $splitter_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}'`
+remote_size=`wget --spider --server-response $splitter_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}' | tail -n 1`
 local_size=`ls -l $splitter | awk '{ print $5 }'`
 if [ ${remote_size}x != ${local_size}x ]; then
 	rm -f $splitter

@@ -10,6 +10,7 @@ MAPID?=		${shell echo ${ID}${PAD} | cut -c1-8}
 OSMOSIS?=	bin/osmosis
 SPLITTER?=	java -Xmx1500m -jar bin/splitter.jar
 MKGMAP?=	java -Xmx1500m -jar bin/mkgmap.jar
+MKGMAPCP?=	java -Xmx1500m -cp bin/mkgmap.jar
 
 all: splitpbf convert
 
@@ -56,9 +57,10 @@ mkgbnd2:
 	--merge inPipe.0=10 inPipe.1=11 outPipe.0=12 \
 	--write-pbf file=boundary/local-boundaries.osm.pbf omitmetadata=true compress=deflate inPipe.0=12 
 
-	${MKGMAP} \
-	--createboundsfile=boundary/local-boundaries.osm.pbf \
-	--bounds=./boundary/local/
+	${MKGMAPCP} \
+	uk.me.parabola.mkgmap.reader.osm.boundary.BoundaryPreprocessor \
+	boundary/local-boundaries.osm.pbf \
+	./boundary/local/
 
 clean:
 	rm -rf boundary/* splitted/* logs/* output/*
