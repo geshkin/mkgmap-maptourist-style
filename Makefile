@@ -17,7 +17,7 @@ all: splitpbf convert
 splitpbf:
 	mkdir -p logs
 	${SPLITTER} \
-		--overlap=20000 \
+		--overlap=0 \
 		--max-nodes=1000000 \
 		--no-trim \
 		--output=pbf \
@@ -38,7 +38,6 @@ convert:
 		--keep-going \
 		--read-config=optionsfile.args \
 		--style-file=${STYLE} \
-		--style=${STYLE} \
 		--gmapsupp \
 		-c splitted/template.args ${STYLE}/${TYP}
 

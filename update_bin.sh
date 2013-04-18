@@ -2,7 +2,7 @@
 
 mkdir -p tmp
 mkgmap_url='http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz'
-splitter_url='http://www.mkgmap.org.uk/splitter/splitter-r282.tar.gz'
+splitter_url='http://www.mkgmap.org.uk/splitter/splitter-r301.tar.gz'
 osmosis_url='http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-latest.tgz'
 mkgmap=`basename $mkgmap_url`
 splitter=`basename $splitter_url`
@@ -22,7 +22,8 @@ if [ ${remote_size}x != ${local_size}x ]; then
 	rm -f $osmosis
 	wget -c $osmosis_url
 fi
-tar xfz $osmosis -C tmp
+mkdir -p tmp/osmosis-latest
+tar xfz $osmosis -C tmp/osmosis-latest
 
 remote_size=`wget --spider --server-response $splitter_url -O - 2>&1 | sed -ne '/Content-Length/{s/.*: //;p}' | tail -n 1`
 local_size=`ls -l $splitter | awk '{ print $5 }'`

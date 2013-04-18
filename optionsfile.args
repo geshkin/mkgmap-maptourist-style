@@ -3,7 +3,7 @@
 #
 
 max-jobs:2
-code-page:1251
+code-page:1252
 tdbfile
 index
 lower-case
